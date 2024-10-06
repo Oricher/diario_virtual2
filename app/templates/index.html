@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário Virtual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('entryForm');
+
+            // Função para submeter uma nova entrada
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const title = document.getElementById('title').value;
+                const content = document.getElementById('content').value;
+
+                fetch('/add_entry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({ title, content })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    form.reset(); // Limpa o formulário após o envio
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/fundo_madeira.png') }}" alt="fundo" class="background-image">
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/livro_preto.png') }}" alt="fundo" class="background-image">
+        
+        <div class="content">
+            <h1>Meu Querido Diário!</h1>
+            <form id="entryForm">
+                <input class="text_aline" type="text" id="title" name="title" placeholder="Título" required><br><br>
+                <textarea class="text_aline" id="content" name="content" placeholder="Escreva sua entrada aqui..." required></textarea><br><br>
+                <button type="submit">Adicionar Entrada</button>
+            </form>
+            <!-- Botão para acessar a página de listagem de entradas -->
+            <form action="{{ url_for('list_entries') }}">
+                <button type="submit">Ver Entradas</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
