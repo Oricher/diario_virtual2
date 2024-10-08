@@ -3,32 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Entradas</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/entries.css') }}">
-
+    <title>Entradas do Diário</title>
 </head>
 <body>
-    <h1>Entradas no Diário</h1>
-    
-    <!-- Verifica se existem entradas para exibir -->
-    {% if entries %}
-    <ul id="entryList">
-        <!-- Loop sobre as entradas e exibe cada uma -->
+    <h1>Lista de Entradas do Diário</h1>
+    <ul>
         {% for entry in entries %}
         <li>
-            <strong>{{ entry.title }}</strong><br>
-            {{ entry.content }}<br>
-            <em>{{ entry.created_at }}</em>
+            <h2>{{ entry.title }}</h2>
+            <p>{{ entry.content[:100] }}...</p> <!-- Mostra apenas os primeiros 100 caracteres -->
+            <a href="{{ url_for('view_entry', entry_id=entry.id) }}">Ver mais</a> <!-- Link para ver a entrada completa -->
         </li>
         {% endfor %}
     </ul>
-    {% else %}
-    <p>Não há entradas no diário ainda.</p>
-    {% endif %}
-
-    <!-- Botão para voltar à página inicial -->
-    <form action="{{ url_for('home') }}">
-        <button type="submit">Voltar</button>
-    </form>
 </body>
 </html>

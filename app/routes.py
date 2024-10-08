@@ -70,3 +70,21 @@ def delete_entry(entry_id):
 
     # Retorna uma resposta em formato JSON
     return jsonify({'status': 'success', 'message': 'Entry deleted successfully!'})
+
+# Rota para visualizar uma entrada específica (via GET)
+@app.route('/entry/<int:entry_id>')
+def view_entry(entry_id):
+    # Conecta ao banco de dados e busca a entrada com o ID fornecido
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)  # Usa 'dictionary=True' para retornar colunas com nome
+    cursor.execute('SELECT * FROM entries WHERE id = %s', (entry_id,))
+    entry = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    # Se não encontrar a entrada, retorna um erro 404
+    if entry is None:
+        return jsonify({'status': 'error', 'message': 'Entry not found!'}), 404
+
+    # Renderiza a página de visualização da entrada
+    return render_template('view_entry.html', entry=entry)
