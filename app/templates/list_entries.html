@@ -1,20 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Define o tipo de documento como HTML5 -->
     <meta charset="UTF-8">
+    <!-- Define a codificação de caracteres como UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da página -->
     <title>Entradas do Diário</title>
+    <!-- Link para o arquivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list_entries.css') }}">
 </head>
 <body>
-    <h1>Lista de Entradas do Diário</h1>
-    <ul>
-        {% for entry in entries %}
-        <li>
-            <h2>{{ entry.title }}</h2>
-            <p>{{ entry.content[:100] }}...</p> <!-- Mostra apenas os primeiros 100 caracteres -->
-            <a href="{{ url_for('view_entry', entry_id=entry.id) }}">Ver mais</a> <!-- Link para ver a entrada completa -->
-        </li>
+    <section>
+        <!-- Imagem de fundo -->
+        <img class="fundo_madeira" src="{{ url_for('static', filename='images/fundo_madeira.png') }}" alt="fundo">
+        <div class="container">
+            <ul>
+                <!-- Loop Jinja2 para cada entrada em entries -->
+                {% for entry in entries %}
+                <li>
+                    <!-- Título da entrada -->
+                    <h2>{{ entry.title }}</h2>
+                    <!-- Conteúdo truncado da entrada, mostrando apenas os primeiros 70 caracteres -->
+                    <p>{{ entry.content|truncate(70, True, '...')|replace('\n', '<br>')|safe }}</p>
+                    <!-- Link para ver a entrada completa -->
+                    <a href="{{ url_for('view_entry', entry_id=entry.id) }}">Ver mais</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    <div class="pagination">
+        <!-- Link para a página anterior, se não estiver na primeira página -->
+        {% if page > 1 %}
+            <a href="{{ url_for('list_entries', page=page-1) }}">Anterior</a>
+        {% endif %}
+        <!-- Loop para gerar links de paginação -->
+        {% for p in range(1, total_pages + 1) %}
+            <a href="{{ url_for('list_entries', page=p) }}"
+               class="{{ 'active' if p == page else '' }}">{{ p }}</a>
         {% endfor %}
-    </ul>
+        <!-- Link para a próxima página, se não estiver na última página -->
+        {% if page < total_pages %}
+            <a href="{{ url_for('list_entries', page=page+1) }}">Próximo</a>
+        {% endif %}
+    </div>
 </body>
 </html>

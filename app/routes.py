@@ -1,6 +1,7 @@
 from app import app
-from flask import request, jsonify, render_template
+from flask import request, jsonify, render_template, request
 from .models import get_db_connection
+from math import ceil
 
 # Rota principal para exibir a página inicial
 @app.route('/')
@@ -35,9 +36,15 @@ def list_entries():
     entries = cursor.fetchall()
     cursor.close()
     conn.close()
+    per_page = 6
+    page = request.args.get('page', 1, type=int)
+    total_entries = len(entries)  # Assumindo que 'entries' é a lista com todas as entradas
+    total_pages = ceil(total_entries / per_page)
+    start = (page - 1) * per_page
+    end = start + per_page
+    entries_to_show = entries[start:end]
 
-    # Renderiza a página de listagem e passa as entradas como variável para o template
-    return render_template('list_entries.html', entries=entries)
+    return render_template('list_entries.html', entries=entries_to_show, page=page, total_pages=total_pages)
 
 # Rota para editar uma entrada existente (via POST)
 @app.route('/edit_entry/<int:entry_id>', methods=['POST'])

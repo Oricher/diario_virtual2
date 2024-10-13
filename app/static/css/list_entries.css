@@ -1,0 +1,125 @@
+/* Estilo básico para o corpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo para a imagem de fundo */
+.fundo_madeira {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 150vh; /* Ajusta para cobrir toda a altura da página */
+    z-index: -1;
+    object-fit: cover; /* Para garantir que a imagem cubra bem */
+}
+
+/* Container principal das entradas */
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas */
+    gap: 20px; /* Espaçamento entre as colunas e linhas */
+    max-width: 1200px; /* Limita a largura total */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+/* Cada item da lista ocupa um espaço */
+.container ul {
+    display: contents; /* Remove o comportamento de lista tradicional */
+}
+
+/* Estilo dos itens (entradas) */
+.container li {
+    background-color: #e0e0e0;
+    padding: 20px; /* Aumenta o padding para dar mais espaço */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px; /* Define uma altura mínima */
+}
+
+/* Título das entradas */
+.container li h2 {
+    font-size: 1.4em; /* Reduz um pouco o tamanho da fonte */
+    color: #333;
+    margin: 0;
+}
+
+/* Conteúdo das entradas */
+.container li p {
+    color: #666;
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+/* Estilo para o título principal da página */
+h1 {
+    color: #4CAF50;
+    margin-bottom: 30px; /* Aumenta o espaçamento abaixo do título */
+    font-size: 2em;
+    text-align: center;
+}
+
+/* Link para ver mais */
+.container li a {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-size: 1em;
+}
+
+.container li a:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para a paginação */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination a.active {
+    background-color: #45a049;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background-color: #45a049;
+}
+
+/* Adicionando responsividade */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Em telas menores, as entradas ocupam 100% da largura */
+    }
+}
